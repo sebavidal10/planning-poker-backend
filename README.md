@@ -12,7 +12,7 @@ npm install
 
 ## Ejecución
 
-Para ejecutar el proyecto, ejecutar el siguiente comando:
+Para ejecutar el proyecto se debe usar un .env en base al .env.example y ejecutar el siguiente comando:
 
 ```bash
 node server.js
@@ -20,7 +20,5 @@ node server.js
 
 ## WIP
 
-- Variables de entorno
 - Limpieza y orden de código
 - Pruebas unitarias
-- Dockerizar la aplicación

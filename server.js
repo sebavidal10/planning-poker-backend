@@ -4,6 +4,7 @@ const socketIo = require('socket.io');
 const cors = require('cors');
 const db = require('./db');
 const UserVote = require('./models/UserVote');
+require('dotenv').config();
 
 const app = express();
 const server = http.createServer(app);
@@ -11,7 +12,7 @@ const server = http.createServer(app);
 // Configura CORS para Express
 app.use(
   cors({
-    origin: 'http://localhost:3000', // Cambia esto si tu frontend está en otra URL
+    origin: process.env.FRONT_URL, // Cambia esto si tu frontend está en otra URL
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
   })
@@ -20,7 +21,7 @@ app.use(express.json());
 
 const io = socketIo(server, {
   cors: {
-    origin: 'http://localhost:3000', // Cambia esto si tu frontend está en otra URL
+    origin: process.env.FRONT_URL, // Cambia esto si tu frontend está en otra URL
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
   },
@@ -43,9 +44,6 @@ io.on('connection', (socket) => {
   // Manejar selección de voto
   socket.on('selectVote', ({ name, vote, votingInstanceName }) => {
     console.log(`${name} seleccionó ${vote}`);
-
-    // buscar por name y por votingInstanceName, si existe, actualizar, si no, crear
-
     try {
       UserVote.updateOne(
         {
