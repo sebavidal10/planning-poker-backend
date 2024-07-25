@@ -4,6 +4,7 @@ const socketIo = require('socket.io');
 const cors = require('cors');
 const db = require('./db');
 const UserVote = require('./models/UserVote');
+const Room = require('./models/Room');
 require('dotenv').config();
 
 const app = express();
@@ -12,7 +13,7 @@ const server = http.createServer(app);
 app.use(
   cors({
     origin: process.env.FRONT_URL,
-    methods: ['GET', 'POST', 'DELETE'],
+    methods: ['GET', 'POST', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type'],
   })
 );
@@ -29,13 +30,63 @@ const io = socketIo(server, {
 let participants = {};
 let socketIdToUserMap = {};
 
-app.get('/results/:votingInstanceName', async (req, res) => {
+app.post('/rooms', async (req, res) => {
+  const { slug } = req.body;
+
+  if (!slug) {
+    return res.status(400).send('Todos los campos son requeridos');
+  }
+
+  const create_at = new Date();
+  const open = true;
+
   try {
-    const { votingInstanceName } = req.params;
-    const results = await UserVote.find({ votingInstanceName });
-    res.json(results);
+    const newRoom = new Room({ slug, open, create_at });
+    await newRoom.save();
+    res.status(201).send(newRoom);
   } catch (error) {
-    console.error('Error fetching results:', error);
+    console.error('Error creando Room:', error);
+    res.status(500).send('Error interno del servidor');
+  }
+});
+
+app.patch('/rooms/:slug/close', async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const room = await Room.findOneAndUpdate(
+      { slug },
+      { open: false, close_at: new Date() },
+      { new: true }
+    );
+
+    if (!room) {
+      return res.status(404).send('Room not found');
+    }
+
+    res.status(200).json(room);
+  } catch (error) {
+    console.error('Error closing room:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/rooms/:slug', async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const room = await Room.findOne({ slug });
+    if (!room) {
+      return res.status(404).send('Room not found');
+    }
+
+    const votes = await UserVote.find({ room: room._id });
+    const participants = votes.map((vote) => ({
+      name: vote.name,
+      hasVoted: true,
+    }));
+
+    res.status(200).json({ room, participants });
+  } catch (error) {
+    console.error('Error fetching room details:', error);
     res.status(500).send('Internal Server Error');
   }
 });
@@ -43,7 +94,13 @@ app.get('/results/:votingInstanceName', async (req, res) => {
 app.delete('/results/:votingInstanceName', async (req, res) => {
   try {
     const { votingInstanceName } = req.params;
-    await UserVote.deleteMany({ votingInstanceName });
+    const room = await Room.findOne({ slug: votingInstanceName });
+    if (!room) {
+      return res.status(404).send('Room not found');
+    }
+
+    await UserVote.deleteMany({ room: room._id });
+
     participants[votingInstanceName] = participants[votingInstanceName].map(
       (participant) => ({
         ...participant,
@@ -82,12 +139,19 @@ io.on('connection', (socket) => {
   });
 
   socket.on('selectVote', async ({ name, vote, votingInstanceName }) => {
+    console.log('votingInstanceName:' + votingInstanceName);
     try {
+      const room = await Room.findOne({ slug: votingInstanceName });
+      if (!room) {
+        throw new Error('Room not found');
+      }
+
       await UserVote.updateOne(
-        { name, votingInstanceName },
-        { name, vote, votingInstanceName, hasVoted: true, date: new Date() },
+        { name, room: room._id },
+        { name, vote, room: room._id, hasVoted: true, date: new Date() },
         { upsert: true }
       );
+
       const participant = participants[votingInstanceName].find(
         (p) => p.name === name
       );
