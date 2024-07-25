@@ -5,6 +5,7 @@ const roomSchema = new mongoose.Schema({
   open: { type: Boolean, required: true },
   create_at: { type: Date, required: true },
   close_at: { type: Date, required: false },
+  owner: { type: String, required: false },
 });
 
 const Room = mongoose.model('Room', roomSchema);

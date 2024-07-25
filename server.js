@@ -39,9 +39,11 @@ app.post('/rooms', async (req, res) => {
 
   const create_at = new Date();
   const open = true;
+  const owner = null;
+  const close_at = null;
 
   try {
-    const newRoom = new Room({ slug, open, create_at });
+    const newRoom = new Room({ slug, open, create_at, owner, close_at });
     await newRoom.save();
     res.status(201).send(newRoom);
   } catch (error) {
@@ -84,7 +86,7 @@ app.get('/rooms/:slug', async (req, res) => {
       hasVoted: true,
     }));
 
-    res.status(200).json({ room, participants });
+    res.status(200).json({ room, participants, owner: room.owner });
   } catch (error) {
     console.error('Error fetching room details:', error);
     res.status(500).send('Internal Server Error');
@@ -110,6 +112,7 @@ app.delete('/results/:votingInstanceName', async (req, res) => {
     io.emit('updateParticipants', {
       votingInstanceName,
       participants: participants[votingInstanceName],
+      owner: room.owner,
     });
     res.status(200).send('Votes deleted');
   } catch (error) {
@@ -123,15 +126,28 @@ io.on('connection', (socket) => {
 
   socket.on('join', async ({ name, votingInstanceName }) => {
     try {
+      const room = await Room.findOne({ slug: votingInstanceName });
+      if (!room) {
+        throw new Error('Room not found');
+      }
+
       if (!participants[votingInstanceName]) {
         participants[votingInstanceName] = [];
       }
+
+      if (!room.owner) {
+        room.owner = name;
+        await room.save();
+      }
+
       const existingVote = await UserVote.findOne({ name, votingInstanceName });
       participants[votingInstanceName].push({ name, hasVoted: !!existingVote });
       socketIdToUserMap[socket.id] = { name, votingInstanceName };
+
       io.emit('updateParticipants', {
         votingInstanceName,
         participants: participants[votingInstanceName],
+        owner: room.owner,
       });
     } catch (error) {
       console.error('Error during join:', error);
@@ -161,6 +177,7 @@ io.on('connection', (socket) => {
       io.emit('updateParticipants', {
         votingInstanceName,
         participants: participants[votingInstanceName],
+        owner: room.owner,
       });
       console.log('Voto guardado', { name, vote, votingInstanceName });
     } catch (error) {
