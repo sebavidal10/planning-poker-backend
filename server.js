@@ -65,6 +65,8 @@ app.patch('/rooms/:slug/close', async (req, res) => {
       return res.status(404).send('Room not found');
     }
 
+    io.emit('roomClosed', { votingInstanceName: slug });
+
     res.status(200).json(room);
   } catch (error) {
     console.error('Error closing room:', error);
@@ -83,6 +85,7 @@ app.get('/rooms/:slug', async (req, res) => {
     const votes = await UserVote.find({ room: room._id });
     const participants = votes.map((vote) => ({
       name: vote.name,
+      vote: vote.vote,
       hasVoted: true,
     }));
 
@@ -93,7 +96,8 @@ app.get('/rooms/:slug', async (req, res) => {
   }
 });
 
-app.delete('/results/:votingInstanceName', async (req, res) => {
+app.delete('/rooms/:votingInstanceName', async (req, res) => {
+  console.log('Delete votes');
   try {
     const { votingInstanceName } = req.params;
     const room = await Room.findOne({ slug: votingInstanceName });
@@ -102,7 +106,6 @@ app.delete('/results/:votingInstanceName', async (req, res) => {
     }
 
     await UserVote.deleteMany({ room: room._id });
-
     participants[votingInstanceName] = participants[votingInstanceName].map(
       (participant) => ({
         ...participant,
