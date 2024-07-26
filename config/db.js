@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
 
 mongoose.connect(
   `${process.env.MONGO_PROTOCOL}://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB_NAME}`,
@@ -9,11 +8,12 @@ mongoose.connect(
   }
 );
 
-const db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'Error de conexión a MongoDB:'));
-db.once('open', () => {
-  console.log('Conectado a MongoDB');
+mongoose.connection.on('connected', () => {
+  console.log('Conectado a la base de datos MongoDB');
 });
 
-module.exports = db;
+mongoose.connection.on('error', (err) => {
+  console.log('Error de conexión a MongoDB:', err);
+});
+
+module.exports = mongoose;
