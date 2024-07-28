@@ -20,5 +20,4 @@ node server.js
 
 ## WIP
 
-- Limpieza y orden de código
 - Pruebas unitarias

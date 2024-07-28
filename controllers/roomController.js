@@ -1,5 +1,6 @@
 const Room = require('../models/Room');
 const UserVote = require('../models/UserVote');
+const { getIo } = require('../services/socketService');
 
 exports.createRoom = async (req, res) => {
   const { slug } = req.body;
@@ -24,8 +25,10 @@ exports.createRoom = async (req, res) => {
 };
 
 exports.closeRoom = async (req, res) => {
+  const io = getIo();
   try {
     const { slug } = req.params;
+    console.log('Closing room', slug);
     const room = await Room.findOneAndUpdate(
       { slug },
       { open: false, close_at: new Date() },
@@ -68,6 +71,7 @@ exports.getRoomDetails = async (req, res) => {
 };
 
 exports.deleteVotes = async (req, res) => {
+  const io = getIo();
   try {
     const { votingInstanceName } = req.params;
     const room = await Room.findOne({ slug: votingInstanceName });

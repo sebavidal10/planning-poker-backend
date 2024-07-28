@@ -4,9 +4,10 @@ const UserVote = require('../models/UserVote');
 
 let participants = {};
 let socketIdToUserMap = {};
+let io;
 
 const setupSocket = (server) => {
-  const io = socketIo(server, {
+  io = socketIo(server, {
     cors: {
       origin: process.env.FRONT_URL,
       methods: ['GET', 'POST'],
@@ -106,4 +107,11 @@ const setupSocket = (server) => {
   });
 };
 
-module.exports = { setupSocket };
+const getIo = () => {
+  if (!io) {
+    throw new Error('Socket.io no ha sido inicializado');
+  }
+  return io;
+};
+
+module.exports = { setupSocket, getIo };
