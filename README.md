@@ -18,26 +18,18 @@ Servidor robusto de tiempo real para Planning Poker, desarrollado con **Node.js*
 - **Cálculo de Promedios**: Lógica inteligente para promediar votos numéricos e ignorar votos especiales (Coffee, ?).
 - **Resiliencia**: Limpieza automática de participantes en desconexión.
 
+## 🌐 Despliegue
+
+El backend está desplegado en **Vercel**:
+
+- **URL**: `https://planning-poker-backend-omega.vercel.app`
+
+> [!NOTE]
+> Para el correcto funcionamiento con el frontend en GitHub Pages, el backend tiene configurado el **CORS** para permitir el origen `https://sebavidal10.github.io`.
+
 ## 📦 Instalación y Ejecución
 
-1.  **Instalar**:
-
-    ```bash
-    npm install
-    ```
-
-2.  **Configurar (.env)**:
-
-    ```env
-    PORT=3001
-    MONGO_URI=mongodb://localhost:27017/planning-poker
-    FRONT_URL=http://localhost:3000
-    ```
-
-3.  **Ejecutar**:
-    ```bash
-    npm start
-    ```
+... (resto del archivo)
 
 ## 🔌 Socket.IO Eventos (Actualizados)
 
