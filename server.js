@@ -46,14 +46,15 @@ app.use(errorHandler);
 
 setupSocket(server);
 
+// Connect to Database
+connectDB();
+
 const PORT = process.env.PORT || 4000;
 
-// Only connect to DB and start listening if run directly
+// Only start listening if run directly (local development)
 if (require.main === module) {
-  connectDB().then(() => {
-    server.listen(PORT, '0.0.0.0', () => {
-      console.log(`🚀 Server running on http://127.0.0.1:${PORT}`);
-    });
+  server.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 Server running on http://127.0.0.1:${PORT}`);
   });
 }
 
