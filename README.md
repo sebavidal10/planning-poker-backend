@@ -29,7 +29,24 @@ El backend está desplegado en **Vercel**:
 
 ## 📦 Instalación y Ejecución
 
-... (resto del archivo)
+1.  **Instalar**:
+
+    ```bash
+    npm install
+    ```
+
+2.  **Configurar (.env)**:
+
+    ```env
+    PORT=3001
+    MONGO_URI=mongodb://localhost:27017/planning-poker
+    FRONT_URL=http://localhost:3000
+    ```
+
+3.  **Ejecutar**:
+    ```bash
+    npm start
+    ```
 
 ## 🔌 Socket.IO Eventos (Actualizados)
 
