@@ -1,19 +1,48 @@
 const mongoose = require('mongoose');
 
-mongoose.connect(
-  `${process.env.MONGO_PROTOCOL}://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB_NAME}`,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+const connectDB = async () => {
+  const {
+    MONGO_URI,
+    MONGO_PROTOCOL,
+    MONGO_HOST,
+    MONGO_PORT,
+    MONGO_DB_NAME,
+    MONGO_USERNAME,
+    MONGO_PASSWORD,
+  } = process.env;
+
+  let mongoURI = MONGO_URI;
+
+  if (!mongoURI) {
+    // Standard connection string construction
+    const auth =
+      MONGO_USERNAME && MONGO_PASSWORD
+        ? `${MONGO_USERNAME}:${encodeURIComponent(MONGO_PASSWORD)}@`
+        : '';
+    const port = MONGO_PORT ? `:${MONGO_PORT}` : '';
+    const authSource = MONGO_USERNAME ? '?authSource=admin' : '';
+
+    mongoURI = `${MONGO_PROTOCOL}://${auth}${MONGO_HOST}${port}/${MONGO_DB_NAME}${authSource}`;
   }
-);
 
-mongoose.connection.on('connected', () => {
-  console.log('Conectado a la base de datos MongoDB');
+  if (!mongoURI || mongoURI.includes('undefined')) {
+    console.error('CRITICAL: MongoDB URI construction failed. Check .env');
+    if (process.env.NODE_ENV !== 'test') process.exit(1);
+    return;
+  }
+
+  try {
+    // Use the most stable configuration for modern Mongoose/MongoDB Driver
+    await mongoose.connect(mongoURI);
+    console.log('✅ Successfully connected to MongoDB');
+  } catch (err) {
+    console.error('❌ MongoDB connection error:', err.message);
+    if (process.env.NODE_ENV !== 'test') process.exit(1);
+  }
+};
+
+mongoose.connection.on('disconnected', () => {
+  console.log('MongoDB disconnected');
 });
 
-mongoose.connection.on('error', (err) => {
-  console.log('Error de conexión a MongoDB:', err);
-});
-
-module.exports = mongoose;
+module.exports = connectDB;

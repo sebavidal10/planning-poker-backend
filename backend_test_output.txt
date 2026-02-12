@@ -1,0 +1,278 @@
+
+> planning-poker-backend@1.0.0 test
+> jest --coverage
+
+PASS tests/integration.test.js
+  ● Console
+
+    console.log
+      Mounting roomRoutes
+
+      at Object.log (routes/roomRoutes.js:17:9)
+
+    console.log
+      createRoomSchema defined: true
+
+      at Object.log (routes/roomRoutes.js:18:9)
+
+    console.log
+      validate middleware defined: true
+
+      at Object.log (routes/roomRoutes.js:19:9)
+
+    console.error
+      Error: Error: Room not found
+          at exports.getRoomDetails (/Users/sebavidal/Workspace/sebavidal10/planning-poker/planning-poker-backend/controllers/roomController.js:62:21)
+          at processTicksAndRejections (node:internal/process/task_queues:95:5) {
+        statusCode: 404
+      }
+
+      1 | const errorHandler = (err, req, res, next) => {
+    > 2 |   console.error('Error:', err); // Log internally
+        |           ^
+      3 |
+      4 |   const statusCode = err.statusCode || 500;
+      5 |   const message = err.message || 'Internal Server Error';
+
+      at error (middlewares/errorHandler.js:2:11)
+      at Layer.handle_error (node_modules/express/lib/router/layer.js:71:5)
+      at trim_prefix (node_modules/express/lib/router/index.js:326:13)
+      at node_modules/express/lib/router/index.js:286:9
+      at Function.process_params (node_modules/express/lib/router/index.js:346:12)
+      at next (node_modules/express/lib/router/index.js:280:10)
+      at node_modules/express/lib/router/index.js:646:15
+      at next (node_modules/express/lib/router/index.js:265:14)
+      at next (node_modules/express/lib/router/route.js:141:14)
+      at next (controllers/roomController.js:117:5)
+
+    console.error
+      Error: Error: Room not found
+          at exports.closeRoom (/Users/sebavidal/Workspace/sebavidal10/planning-poker/planning-poker-backend/controllers/roomController.js:43:21)
+          at processTicksAndRejections (node:internal/process/task_queues:95:5) {
+        statusCode: 404
+      }
+
+      1 | const errorHandler = (err, req, res, next) => {
+    > 2 |   console.error('Error:', err); // Log internally
+        |           ^
+      3 |
+      4 |   const statusCode = err.statusCode || 500;
+      5 |   const message = err.message || 'Internal Server Error';
+
+      at error (middlewares/errorHandler.js:2:11)
+      at Layer.handle_error (node_modules/express/lib/router/layer.js:71:5)
+      at trim_prefix (node_modules/express/lib/router/index.js:326:13)
+      at node_modules/express/lib/router/index.js:286:9
+      at Function.process_params (node_modules/express/lib/router/index.js:346:12)
+      at next (node_modules/express/lib/router/index.js:280:10)
+      at node_modules/express/lib/router/index.js:646:15
+      at next (node_modules/express/lib/router/index.js:265:14)
+      at next (node_modules/express/lib/router/route.js:141:14)
+      at next (controllers/roomController.js:52:5)
+
+    console.error
+      Error: Error: Room not found
+          at exports.deleteVotes (/Users/sebavidal/Workspace/sebavidal10/planning-poker/planning-poker-backend/controllers/roomController.js:128:21)
+          at processTicksAndRejections (node:internal/process/task_queues:95:5) {
+        statusCode: 404
+      }
+
+      1 | const errorHandler = (err, req, res, next) => {
+    > 2 |   console.error('Error:', err); // Log internally
+        |           ^
+      3 |
+      4 |   const statusCode = err.statusCode || 500;
+      5 |   const message = err.message || 'Internal Server Error';
+
+      at error (middlewares/errorHandler.js:2:11)
+      at Layer.handle_error (node_modules/express/lib/router/layer.js:71:5)
+      at trim_prefix (node_modules/express/lib/router/index.js:326:13)
+      at node_modules/express/lib/router/index.js:286:9
+      at Function.process_params (node_modules/express/lib/router/index.js:346:12)
+      at Immediate.next (node_modules/express/lib/router/index.js:280:10)
+      at Immediate._onImmediate (node_modules/express/lib/router/index.js:646:15)
+
+    console.error
+      Error: Error: Room not found
+          at exports.selectVote (/Users/sebavidal/Workspace/sebavidal10/planning-poker/planning-poker-backend/controllers/voteController.js:13:21)
+          at processTicksAndRejections (node:internal/process/task_queues:95:5) {
+        statusCode: 404
+      }
+
+      1 | const errorHandler = (err, req, res, next) => {
+    > 2 |   console.error('Error:', err); // Log internally
+        |           ^
+      3 |
+      4 |   const statusCode = err.statusCode || 500;
+      5 |   const message = err.message || 'Internal Server Error';
+
+      at error (middlewares/errorHandler.js:2:11)
+      at Layer.handle_error (node_modules/express/lib/router/layer.js:71:5)
+      at trim_prefix (node_modules/express/lib/router/index.js:326:13)
+      at node_modules/express/lib/router/index.js:286:9
+      at Function.process_params (node_modules/express/lib/router/index.js:346:12)
+      at Immediate.next (node_modules/express/lib/router/index.js:280:10)
+      at Immediate._onImmediate (node_modules/express/lib/router/index.js:646:15)
+
+    console.log
+      MongoDB disconnected
+
+      at NativeConnection.log (config/db.js:30:11)
+          at async Promise.all (index 0)
+
+FAIL tests/socket.test.js
+  ● Console
+
+    console.log
+      New client connected: 2QQoRNn3_ViJEb-9AAAB
+
+      at Namespace.log (services/socketService.js:56:13)
+
+    console.log
+      Client disconnected: 2QQoRNn3_ViJEb-9AAAB
+
+      at Socket.log (services/socketService.js:202:17)
+
+    console.log
+      New client connected: Xeh_hcKqv0srobZNAAAD
+
+      at Namespace.log (services/socketService.js:56:13)
+
+    console.log
+      Client disconnected: Xeh_hcKqv0srobZNAAAD
+
+      at Socket.log (services/socketService.js:202:17)
+
+    console.log
+      New client connected: dzEyUxoG_UIocYXHAAAF
+
+      at Namespace.log (services/socketService.js:56:13)
+
+    console.log
+      Client disconnected: dzEyUxoG_UIocYXHAAAF
+
+      at Socket.log (services/socketService.js:202:17)
+
+    console.log
+      New client connected: SDDBo3vmPVcJTaOqAAAH
+
+      at Namespace.log (services/socketService.js:56:13)
+
+    console.log
+      Client disconnected: SDDBo3vmPVcJTaOqAAAH
+
+      at Socket.log (services/socketService.js:202:17)
+
+    console.log
+      New client connected: T4qDj1LdijO3AiT1AAAJ
+
+      at Namespace.log (services/socketService.js:56:13)
+
+    console.log
+      Client disconnected: T4qDj1LdijO3AiT1AAAJ
+
+      at Socket.log (services/socketService.js:202:17)
+
+    console.log
+      New client connected: r-UF8yIZk4l9MBdHAAAL
+
+      at Namespace.log (services/socketService.js:56:13)
+
+    console.log
+      New client connected: a5ikpQsGRQQVRsPiAAAN
+
+      at Namespace.log (services/socketService.js:56:13)
+
+    console.log
+      Client disconnected: r-UF8yIZk4l9MBdHAAAL
+
+      at Socket.log (services/socketService.js:202:17)
+
+    console.error
+      Error on disconnect: MongoNotConnectedError: Client must be connected before running operations
+          at executeOperation (/Users/sebavidal/Workspace/sebavidal10/planning-poker/planning-poker-backend/node_modules/mongodb/src/operations/execute_operation.ts:84:13)
+          at Collection.findOneAndDelete (/Users/sebavidal/Workspace/sebavidal10/planning-poker/planning-poker-backend/node_modules/mongodb/src/collection.ts:864:34)
+          at NativeCollection.<computed> [as findOneAndDelete] (/Users/sebavidal/Workspace/sebavidal10/planning-poker/planning-poker-backend/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:244:33)
+          at model.Query._findOneAndDelete (/Users/sebavidal/Workspace/sebavidal10/planning-poker/planning-poker-backend/node_modules/mongoose/lib/query.js:3503:43)
+          at model.Query.exec (/Users/sebavidal/Workspace/sebavidal10/planning-poker/planning-poker-backend/node_modules/mongoose/lib/query.js:4401:80)
+          at processTicksAndRejections (node:internal/process/task_queues:95:5)
+          at Socket.<anonymous> (/Users/sebavidal/Workspace/sebavidal10/planning-poker/planning-poker-backend/services/socketService.js:188:29) {
+        [Symbol(errorLabels)]: Set(0) {}
+      }
+
+      202 |         console.log(`Client disconnected: ${socket.id}`);
+      203 |       } catch (error) {
+    > 204 |         console.error('Error on disconnect:', error);
+          |                 ^
+      205 |       }
+      206 |     });
+      207 |   });
+
+      at Socket.error (services/socketService.js:204:17)
+
+  ● Socket Service › Timer: Owner can start timer
+
+    Expected done to be called once, but it was called multiple times.
+
+      102 |
+      103 |       clientSocket.on('timerTick', () => {
+    > 104 |         done();
+          |         ^
+      105 |       });
+      106 |
+      107 |       clientSocket.emit('startTimer', {
+
+      at Socket.done (tests/socket.test.js:104:9)
+      at Socket.Emitter.emit (node_modules/@socket.io/component-emitter/lib/cjs/index.js:143:20)
+      at Socket.emitEvent (node_modules/socket.io-client/build/cjs/socket.js:558:20)
+      at Socket.onevent (node_modules/socket.io-client/build/cjs/socket.js:545:18)
+      at Socket.onpacket (node_modules/socket.io-client/build/cjs/socket.js:513:22)
+      at Manager.Emitter.emit (node_modules/@socket.io/component-emitter/lib/cjs/index.js:143:20)
+      at node_modules/socket.io-client/build/cjs/manager.js:246:18
+
+  ● Socket Service › Timer: Owner can start timer
+
+    Expected done to be called once, but it was called multiple times.
+
+      102 |
+      103 |       clientSocket.on('timerTick', () => {
+    > 104 |         done();
+          |         ^
+      105 |       });
+      106 |
+      107 |       clientSocket.emit('startTimer', {
+
+      at Socket.done (tests/socket.test.js:104:9)
+      at Socket.Emitter.emit (node_modules/@socket.io/component-emitter/lib/cjs/index.js:143:20)
+      at Socket.emitEvent (node_modules/socket.io-client/build/cjs/socket.js:558:20)
+      at Socket.onevent (node_modules/socket.io-client/build/cjs/socket.js:545:18)
+      at Socket.onpacket (node_modules/socket.io-client/build/cjs/socket.js:513:22)
+      at Manager.Emitter.emit (node_modules/@socket.io/component-emitter/lib/cjs/index.js:143:20)
+      at node_modules/socket.io-client/build/cjs/manager.js:246:18
+
+--------------------|---------|----------|---------|---------|--------------------------------------
+File                | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s                    
+--------------------|---------|----------|---------|---------|--------------------------------------
+All files           |   87.09 |    72.88 |      75 |   88.47 |                                      
+ controllers        |   87.36 |     62.5 |      50 |   89.24 |                                      
+  roomController.js |   85.07 |    58.33 |   44.44 |   87.69 | 27,74-75,91,99-103                   
+  voteController.js |   92.85 |       75 |   66.66 |   92.85 | 30,35                                
+ middlewares        |      92 |       60 |     100 |   91.66 |                                      
+  errorHandler.js   |     100 |       50 |     100 |     100 | 4-10                                 
+  schemas.js        |     100 |      100 |     100 |     100 |                                      
+  validate.js       |   83.33 |      100 |     100 |   81.81 | 24-25                                
+ models             |     100 |      100 |     100 |     100 |                                      
+  Participant.js    |     100 |      100 |     100 |     100 |                                      
+  Room.js           |     100 |      100 |     100 |     100 |                                      
+  UserVote.js       |     100 |      100 |     100 |     100 |                                      
+ routes             |     100 |      100 |     100 |     100 |                                      
+  roomRoutes.js     |     100 |      100 |     100 |     100 |                                      
+  voteRoutes.js     |     100 |      100 |     100 |     100 |                                      
+ services           |   80.64 |    81.81 |   91.66 |   82.41 |                                      
+  socketService.js  |   80.64 |    81.81 |   91.66 |   82.41 | 30-32,88,110,115-134,158-161,179-182 
+--------------------|---------|----------|---------|---------|--------------------------------------
+Test Suites: 1 failed, 1 passed, 2 total
+Tests:       1 failed, 17 passed, 18 total
+Snapshots:   0 total
+Time:        2.807 s, estimated 3 s
+Ran all test suites.

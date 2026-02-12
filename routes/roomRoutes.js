@@ -6,10 +6,17 @@ const {
   getRoomDetails,
   deleteVotes,
 } = require('../controllers/roomController');
+const validate = require('../middlewares/validate');
+const {
+  createRoomSchema,
+  closeRoomSchema,
+  getRoomDetailsSchema,
+  deleteVotesSchema,
+} = require('../middlewares/schemas');
 
-router.post('/', createRoom);
-router.patch('/:slug/close', closeRoom);
-router.get('/:slug', getRoomDetails);
-router.delete('/:votingInstanceName', deleteVotes);
+router.post('/', validate(createRoomSchema), createRoom);
+router.patch('/:slug/close', validate(closeRoomSchema), closeRoom);
+router.get('/:slug', validate(getRoomDetailsSchema), getRoomDetails);
+router.delete('/:votingInstanceName', validate(deleteVotesSchema), deleteVotes);
 
 module.exports = router;
