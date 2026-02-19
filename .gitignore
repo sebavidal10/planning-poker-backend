@@ -23,6 +23,10 @@ lib-cov
 coverage
 *.lcov
 
+# Test outputs
+*test_output.txt
+backend_test_output.txt
+
 # nyc test coverage
 .nyc_output
 

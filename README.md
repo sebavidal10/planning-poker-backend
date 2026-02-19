@@ -22,10 +22,10 @@ Servidor robusto de tiempo real para Planning Poker, desarrollado con **Node.js*
 
 El backend está desplegado en **Vercel**:
 
-- **URL**: `https://planning-poker-backend-omega.vercel.app`
+- **URL**: `https://planning-poker-backend-at8c.onrender.com`
 
-> [!NOTE]
-> Para el correcto funcionamiento con el frontend en GitHub Pages, el backend tiene configurado el **CORS** para permitir el origen `https://sebavidal10.github.io`.
+> [!CAUTION]
+> **Hosting de Backend:** Este backend requiere un servidor con soporte para **WebSockets persistentes** (como Render.com, Railway o VPS). Hosting serverless como Vercel (Hobby) no funcionará correctamente para la sincronización en tiempo real ya que cierra las conexiones de Socket.IO.
 
 ## 📦 Instalación y Ejecución
 
